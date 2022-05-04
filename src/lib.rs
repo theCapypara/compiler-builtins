@@ -40,6 +40,9 @@ mod macros;
 
 pub mod mem;
 
+#[cfg(target_arch = "arm")]
+pub mod arm;
+
 #[cfg(all(
     kernel_user_helpers,
     any(target_os = "linux", target_os = "android"),
