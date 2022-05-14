@@ -67,7 +67,7 @@ pub unsafe fn copy_forward(mut dest: *mut u8, mut src: *const u8, mut n: usize) 
         #[cfg(target_has_atomic_load_store = "ptr")]
         let mut prev_word = core::intrinsics::atomic_load_unordered(src_aligned);
         #[cfg(not(target_has_atomic_load_store = "ptr"))]
-        let mut prev_word = core::ptr::read_volatile(src_aligned);
+        let mut prev_word = core::intrinsics::volatile_load(src_aligned);
 
         while dest_usize < dest_end {
             src_aligned = src_aligned.add(1);
@@ -165,7 +165,7 @@ pub unsafe fn copy_backward(dest: *mut u8, src: *const u8, mut n: usize) {
         #[cfg(target_has_atomic_load_store = "ptr")]
         let mut prev_word = core::intrinsics::atomic_load_unordered(src_aligned);
         #[cfg(not(target_has_atomic_load_store = "ptr"))]
-        let mut prev_word = core::ptr::read_volatile(src_aligned);
+        let mut prev_word = core::intrinsics::volatile_load(src_aligned);
 
         while dest_start < dest_usize {
             src_aligned = src_aligned.sub(1);
